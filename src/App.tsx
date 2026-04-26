@@ -39,6 +39,7 @@ export default function App() {
       </div>
 
       <div className="pointer-events-none fixed inset-0 z-10 flex flex-col p-2 sm:p-3">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 z-20 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/80 bg-cyan-300/20 shadow-[0_0_8px_rgba(34,211,238,0.7)]" />
         <div className="flex min-h-0 flex-1 flex-col gap-2 sm:flex-row sm:gap-3">
           <div className="pointer-events-auto flex shrink-0 justify-start">
             <MissionPanel />

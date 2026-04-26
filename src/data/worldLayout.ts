@@ -11,7 +11,7 @@ export const playerSpawn = { x: -9.5, y: 0.9, z: 6.2 };
 export const gaugeG12 = {
   id: "Gauge G-12",
   objectId: "gauge_g12",
-  position: new THREE.Vector3(3.2, 1.0, -0.8),
+  position: new THREE.Vector3(1.9, 1.05, 0.85),
   reading: "42.6 PSI",
 };
 

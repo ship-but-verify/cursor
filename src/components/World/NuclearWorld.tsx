@@ -18,7 +18,7 @@ const htmlCommon = {
   zIndexRange: [0, 100] as [number, number],
 } as const;
 
-const wallColor = { color: "#0f172a", metalness: 0.18, roughness: 0.78 } as const;
+const wallColor = { color: "#334155", metalness: 0.12, roughness: 0.72 } as const;
 
 /** Facility layout: floor, rooms, debris (LOS), gauge G-12, valve V-17, safe zone. */
 export function NuclearWorld() {
@@ -29,14 +29,16 @@ export function NuclearWorld() {
 
   return (
     <group>
-      <hemisphereLight intensity={0.35} color="#94a3b8" groundColor="#020617" />
+      <hemisphereLight intensity={0.62} color="#dbeafe" groundColor="#1e293b" />
+      <ambientLight intensity={0.32} color="#bfdbfe" />
       <directionalLight
         castShadow
         position={[-14, 22, 10]}
-        intensity={1.05}
+        intensity={1.35}
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
+      <pointLight position={[0, 4.6, 0]} intensity={0.85} color="#cbd5e1" distance={34} />
 
       <Html position={[-9.5, 2.4, 0]} {...htmlCommon}>
         <div className="whitespace-nowrap text-xs font-medium text-cyan-300/95 [text-shadow:0_0_8px_#0c4a6e]">
@@ -47,7 +49,13 @@ export function NuclearWorld() {
       <RigidBody type="fixed" position={[0, -0.1, 0]} colliders="cuboid" name="floor">
         <mesh receiveShadow userData={{ blocksLos: false }}>
           <boxGeometry args={[28, 0.2, 22]} />
-          <meshStandardMaterial color="#0b1220" metalness={0.08} roughness={0.88} />
+          <meshStandardMaterial color="#0f172a" metalness={0.05} roughness={0.9} />
+        </mesh>
+      </RigidBody>
+      <RigidBody type="fixed" position={[0, 3.25, 0]} colliders={false} name="ceiling">
+        <mesh receiveShadow>
+          <boxGeometry args={[28, 0.18, 22]} />
+          <meshStandardMaterial color="#cbd5e1" metalness={0.03} roughness={0.86} />
         </mesh>
       </RigidBody>
       {/* Invisible fail-safe floor so the player cannot fall out. */}
@@ -98,7 +106,7 @@ export function NuclearWorld() {
       <RigidBody type="fixed" position={[0.2, 0.55, 2.4]} colliders="cuboid" name="debris_crate">
         <mesh castShadow receiveShadow userData={{ blocksLos: true }}>
           <boxGeometry args={[1.1, 0.7, 0.85]} />
-          <meshStandardMaterial color="#334155" metalness={0.25} roughness={0.82} />
+          <meshStandardMaterial color="#64748b" metalness={0.2} roughness={0.76} />
         </mesh>
       </RigidBody>
 
@@ -135,18 +143,37 @@ export function NuclearWorld() {
         colliders={false}
         name="gauge_g12_body"
       >
+        <mesh position={[0, -0.08, -0.16]} castShadow userData={{ blocksLos: false }}>
+          <boxGeometry args={[0.42, 0.56, 0.18]} />
+          <meshStandardMaterial color="#475569" metalness={0.35} roughness={0.52} />
+        </mesh>
         <mesh
           castShadow
           userData={{ inspectTarget: "gauge_g12" as const, blocksLos: false }}
         >
-          <cylinderGeometry args={[0.22, 0.26, 0.5, 20]} />
-          <meshStandardMaterial color="#e2e8f0" metalness={0.55} roughness={0.35} />
+          <cylinderGeometry args={[0.28, 0.32, 0.58, 24]} />
+          <meshStandardMaterial color="#e2e8f0" metalness={0.48} roughness={0.3} />
+        </mesh>
+        <mesh
+          position={[0, 0.04, 0.2]}
+          userData={{ inspectTarget: "gauge_g12", blocksLos: false }}
+        >
+          <cylinderGeometry args={[0.22, 0.22, 0.02, 24]} />
+          <meshStandardMaterial color="#f8fafc" metalness={0.06} roughness={0.9} />
+        </mesh>
+        <mesh
+          position={[0.11, 0.04, 0.215]}
+          rotation={[0, 0, 0.7]}
+          userData={{ inspectTarget: "gauge_g12", blocksLos: false }}
+        >
+          <boxGeometry args={[0.11, 0.01, 0.01]} />
+          <meshStandardMaterial color="#ef4444" emissive="#991b1b" emissiveIntensity={0.25} />
         </mesh>
         <mesh position={[0, 0.32, 0.12]} userData={{ inspectTarget: "gauge_g12", blocksLos: false }}>
           <boxGeometry args={[0.35, 0.12, 0.08]} />
           <meshStandardMaterial color="#0ea5e9" emissive="#0369a1" emissiveIntensity={0.25} />
         </mesh>
-        <CuboidCollider args={[0.32, 0.45, 0.32]} position={[0, 0.05, 0]} />
+        <CuboidCollider args={[0.38, 0.55, 0.38]} position={[0, 0.02, 0]} />
       </RigidBody>
       <Html position={[gaugeG12.position.x, gaugeG12.position.y + 0.55, gaugeG12.position.z]} {...htmlCommon}>
         <div className="text-[9px] font-mono text-sky-200/95">G-12</div>

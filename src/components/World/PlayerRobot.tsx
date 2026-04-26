@@ -24,8 +24,8 @@ const ARM_PITCH_MAX_RAD = 6.3;
 const ARM_CONTROL_SPEED = 1.8;
 const ARM_BREAK_PITCH_RED = ARM_PITCH_LIMIT_RAD * 0.9;
 const ARM_BREAK_YAW_RED = ARM_YAW_LIMIT_RAD * 0.9;
-const ARM_TOUCH_RADIUS = 0.95;
-const ARM_TIP_LOCAL = new THREE.Vector3(0.03, -0.62, -0.12);
+const ARM_TOUCH_RADIUS = 1.45;
+const ARM_TIP_LOCAL = new THREE.Vector3(0.04, -1.18, -0.42);
 
 function FirstPersonArm() {
   const armPitch = useSimulationStore((s) => s.armPitchRad);
@@ -40,24 +40,24 @@ function FirstPersonArm() {
       rotation={[broken ? 0.9 : armPitch * 0.55, broken ? 0.55 : armYaw * 0.9, broken ? 0.35 : 0]}
     >
       <mesh castShadow renderOrder={999}>
-        <boxGeometry args={[0.08, 0.18, 0.08]} />
+        <boxGeometry args={[0.09, 0.3, 0.09]} />
         <meshBasicMaterial
           color={broken ? "#dc2626" : "#f59e0b"}
           depthTest={false}
           depthWrite={false}
         />
       </mesh>
-      <group position={[0.03, -0.11, -0.02]} rotation={[active ? -0.45 : -0.15, 0, 0]}>
+      <group position={[0.04, -0.24, -0.08]} rotation={[active ? -0.52 : -0.25, 0, 0]}>
         <mesh castShadow renderOrder={999}>
-          <boxGeometry args={[0.06, 0.22, 0.06]} />
+          <boxGeometry args={[0.08, 0.56, 0.08]} />
           <meshBasicMaterial
             color={broken ? "#ef4444" : "#fbbf24"}
             depthTest={false}
             depthWrite={false}
           />
         </mesh>
-        <mesh position={[0, -0.15, -0.01]} castShadow renderOrder={999}>
-          <boxGeometry args={[0.11, 0.05, 0.09]} />
+        <mesh position={[0, -0.4, -0.1]} castShadow renderOrder={999}>
+          <boxGeometry args={[0.2, 0.06, 0.16]} />
           <meshBasicMaterial
             color={broken ? "#b91c1c" : active ? "#22c55e" : "#eab308"}
             depthTest={false}
